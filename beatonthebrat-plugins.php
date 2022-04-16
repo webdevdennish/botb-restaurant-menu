@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name: Beat on the Brat Plugins
+ * Plugin Name: The Sensible Restaurant Menu
  * Description: Custom Elementor addon.
  * Plugin URI:  https://elementor.com/
  * Version:     1.0.0
- * Author:      Elementor Developer
+ * Author:      Beat on the Brat
  * Author URI:  https://developers.elementor.com/
  * Text Domain: beatonthebrat-plugins
  * 
