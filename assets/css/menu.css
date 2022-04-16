@@ -1,0 +1,141 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+div{
+    /* */
+}
+
+
+.header-wrapper, .items-wrapper, .item-wrapper{
+    display:flex;
+    width:100%;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+
+.amount, .item-price{
+    width:50%;
+    text-align: center;
+    font-size: 14px;
+    margin-right:5px;
+    font-style:italic;
+}
+
+.title{
+    color:black;
+    font-size:28px;
+    font-weight:600;
+    margin-right: 5px;
+}
+
+.subtitle{
+    color:black;
+    font-size:16px;
+}
+
+.items-wrapper{
+    flex-direction: column;
+}
+
+.item-wrapper{
+border-bottom: 1px dotted black;
+}
+
+.item-image-wrapper{
+    width:10%;
+    display: flex;
+    align-items: center;
+}
+
+img.item-image{
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+.title-wrapper, .item-left-wrapper{
+    display:inline-flex;
+    width:80%;
+    box-sizing: border-box;
+    align-items: end;
+}
+
+.title-wrapper{
+    align-items: baseline;
+
+}
+
+.item-info-wrapper{
+    width:100%;
+    margin-left:10px;
+}
+
+.item-name{
+
+    font-size:20px;
+}
+
+.item-description{
+    font-size:16px;
+}
+
+.item-price{
+    font-size:20px;
+}
+.amount-wrapper, .item-price-wrapper{
+    display: inline-flex;
+    width:20%;
+    align-items: baseline;
+    box-sizing: border-box;
+    justify-content: flex-end;
+}
+
+img.no-display, div.no-display, .no-display{
+    display: none!important;
+}
+
+
+
+/****
+* LIGHTBOX 
+****/
+
+
+.menu-lightbox {
+    /* Default to hidden */
+    display: none;
+  
+    /* Overlay entire screen */
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    /* A bit of padding around image */
+    padding: 1em;
+  
+    /* Translucent background */
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Unhide the lightbox when it's the target */
+  .menu-lightbox:target {
+    display: block;
+  }
+  
+  .menu-lightbox span {
+    /* Full width and height */
+    display: block;
+    width: 100%;
+    height: 100%;
+
+  
+    /* Size and position background image */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+  }
