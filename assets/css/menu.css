@@ -51,10 +51,14 @@ border-bottom: 1px dotted black;
 }
 
 img.item-image{
+  /*  
     object-fit: cover;
     height: 100%;
     width: 100%;
+    */
 }
+
+
 .title-wrapper, .item-left-wrapper{
     display:inline-flex;
     width:80%;

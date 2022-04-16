@@ -2,8 +2,14 @@
 
 /**
  * TODO
- * change all amount to quantity
- * change all beatonthebrat-plugins to wsi-menu
+ * 
+ * Get it into the backbone rendering
+ * 
+ * Background image for header
+ * 
+ * Imgage size for the image. Maybe do it as a background image.
+ * 
+ *  
  * 
  */
 namespace Beat_on_the_Brat_Plugins;
@@ -13,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 
+#region getters
     public function get_name() {
         return 'beatonthebrat-menu';
     }
@@ -61,7 +68,9 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 		];
     }
 
+#endregion
 
+#region register controls
 	protected function register_controls() {
 
 
@@ -190,6 +199,19 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 				'default' => [
 					'url' => \Elementor\Utils::get_placeholder_image_src(),
 				]
+			]
+		);
+
+		$this->add_control(
+			'item_image_dimension',
+			[
+				'label' => esc_html__( 'Image size', 'beatonthebrat-plugins' ),
+				'type' => \Elementor\Controls_Manager::IMAGE_DIMENSIONS,
+				'description' => esc_html__( 'Crop the image dispay area. Set custom width or height to keep the original size ratio.', 'plugin-name' ),
+				'default' => [
+					'width' => '',
+					'height' => '',
+				],
 			]
 		);
 
@@ -408,9 +430,8 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 
 	}
 
+#endregion
 
-
-	// protected function register_controls() {}
 
 	protected function render() {
 
@@ -474,7 +495,7 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 
 
 
-# endregion
+#endregion
 
 
 		?>
@@ -499,7 +520,7 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 				foreach ( $settings['menu_items'] as $index => $item ):
 
 					// get a number for the item
-					$this->remove_render_attribute( 'item_wrapper' );
+					$this->remove_render_attribute( 'item_wrapper' ); // fix potential elementor bug
 					$this->add_render_attribute( 'item_wrapper', 'class', 'elementor-repeater-item-' . $item['_id'] . ' item-wrapper item-' .  $nr, true );
 
 
@@ -514,11 +535,14 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 
 						$tmb = wp_get_attachment_image_src( $item['item_image']['id'], 'thumbnail' );
 						$img =  wp_get_attachment_image_src( $item['item_image']['id'], 'full' );
-						
+						$img_width = $item['item_image_dimension']['width'];
+						$img_height = $item['item_image_dimension']['height'];
 						$this->add_render_attribute( 'item-image-wrapper', 'class', 'item-image-wrapper', true );
 
 						$this->add_render_attribute( 'item_image', 'id', $objId . '-tmb-' . $nr, true);
 						$this->add_render_attribute( 'item_image', 'src', $tmb[0], true);
+						$this->add_render_attribute( 'item_image', 'width', $img_width, true);
+						$this->add_render_attribute( 'item_image', 'height', $img_height, true);
 						$this->add_render_attribute( 'item_image', 'alt', \Elementor\Control_Media::get_image_alt( $item['item_image'] ), true );
 						$this->add_render_attribute( 'item_image', 'title', \Elementor\Control_Media::get_image_title( $item['item_image'] ), true );
 						$this->add_render_attribute( 'item_image', 'class', 'item-image', true );
@@ -556,15 +580,27 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 				?>
 				<div <?php echo $this->get_render_attribute_string( 'item_wrapper' ); ?> >
 					<div <?php echo $this->get_render_attribute_string( 'item-left-wrapper' ); ?> >
-						<?php if($hasImage): ?>
+
+
+						<?php if(false): ?>
 							<div <?php echo $this->get_render_attribute_string( 'item-image-wrapper' ); ?> >
 								<a href="#<?php echo $objId . '-img-' . $nr ?>">
-									<img <?php 
+								<img <?php 
 									//*************************** */
 									// CHANGE TO BACKGROUND IMAGE
 										// check for image
-										echo $this->get_render_attribute_string( 'item_image' ); ?> />
+										echo $this->get_render_attribute_string( 'item_image' ); ?> /></a>
+								<a href="#" class="menu-lightbox" id="<?php echo $objId . '-img-' . $nr ?>">
+									<span style="background-image: url('<?php echo $img[0] ?>')"></span>
 								</a>
+							</div>
+						<?php endif ?>	
+
+
+
+						<?php if($hasImage): ?>
+							<div <?php echo $this->get_render_attribute_string( 'item-image-wrapper' ); ?> >
+								<a href="#<?php echo $objId . '-img-' . $nr ?>" style="background-image: url('<?php echo $tmb[0] ?>'); width:105px; height:80px;"></a>
 								<a href="#" class="menu-lightbox" id="<?php echo $objId . '-img-' . $nr ?>">
 									<span style="background-image: url('<?php echo $img[0] ?>')"></span>
 								</a>
@@ -592,16 +628,50 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 		<?php
 
     }
-	protected function content_template() {
-		?>
+	protected function content_templateX() {
 		
 
+		?>
+
+		<# 
+		
+	
+		var title_class = settings.title.length ? '' : ' no-display';
+		var subtitle_class = settings.subtitle.length ? '' : ' no-display';
+		var amount_1_class = settings.amount_1.length ? '' : ' no-display';
+		var amount_2_class = settings.amount_2.length ? '' : ' no-display';
+
+		view.addRenderAttribute('title', 'class', 'title' + title_class );
+		view.addRenderAttribute('subtitle', 'class', 'subtitle' + subtitle_class );
+		view.addRenderAttribute('amount_1', 'class', 'amount_1' + amount_1_class );
+		view.addRenderAttribute('amount_2', 'class', 'amount_2' + amount_2_class );
+
+		view.addInlineEditingAttributes( 'title' );
+		view.addInlineEditingAttributes( 'subtitle' );
+		view.addInlineEditingAttributes( 'amount_1' );
+		view.addInlineEditingAttributes( 'amount_2' );
 
 
+		#>
+		
+		
+		<div {{{ view.getRenderAttributeString( 'category-wrapper' }}}>
+			<div {{{ view.getRenderAttributeString( 'header-wrapper' }}}>
+				<div {{{ view.getRenderAttributeString( 'title-wrapper' }}}>
 
-
-
-		<# _.each( settings.items, function( item ) { #>
+					<div {{{ view.getRenderAttributeString( 'title' ) }}}>XX{{{ settings.title }}}</div>
+					<div {{{ view.getRenderAttributeString( 'subtitle' ) }}}>XX{{{ settings.subtitle }}}</div>
+				</div> <!-- end title-wrapper-->
+				<div {{{ view.getRenderAttributeString( 'amount-wrapper' }}}>
+				<div {{{ view.getRenderAttributeString( 'amount_1' ) }}}>XX{{{ settings.amount_1 }}}</div>
+				<div {{{ view.getRenderAttributeString( 'amount_2' ) }}}>XX{{{ settings.amount_2 }}}</div>
+				</div><!-- end amount-wrapper-->
+			</div><!-- end header-wrapper-->
+		
+		
+		<#
+		// start loop
+		_.each( settings.items, function( item ) { #>
 			view.addRenderAttribute('title', 'class', 'title');
 			view.addInlineEditingAttributes( 'title', 'none' );
 
@@ -609,61 +679,12 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 			view.addInlineEditingAttributes( 'subtitle', 'none' 
 				<div class="elementor-repeater-item-{{ item._id }}">{{{ item.title }}}</div>
 				<div>{{{ item.subtitle }}}</div>
-			<# }); #>
+		<# }); //end loop
+			#>
 
 
 
-		<?php
-	}
-
-	protected function content_templateY() {
-		?>
-		<#
-
-		view.addRenderAttribute()
-		view.addInlineEditingAttributes( 'title', 'basic' );
-		view.addInlineEditingAttributes( 'subtitle', 'basic' );
-
-		#>
-		<div {{{ view.getRenderAttributeString( 'title' ) }}}>{{{ settings.title }}}</div>
-		<div {{{ view.getRenderAttributeString( 'subtitle' ) }}}>{{{ settings.subtitle }}}</div>
-		<#
-		view.addRenderAttribute('subtitle', 'class', 'subtitle', false');
-		view.addInlineEditingAttributes( 'subtitle', 'none' );
-
-		#>
-		<div {{{ view.getRenderAttributeString( 'subtitle', 'title' ) }}}>{{{ settings.subtitle }}}</div>
-
-
-		<?php
-	}
-
-	/**
-	 * ============================================
-	 */
-	protected function renderX() {
-		$settings = $this->get_settings_for_display();
-
-		//$this->add_inline_editing_attributes( 'title', 'none' );
-		//$this->add_inline_editing_attributes( 'description', 'basic' );
-		//$this->add_inline_editing_attributes( 'content', 'advanced' );
-		?>
-		<div class="title" <?php echo $this->get_render_attribute_string( 'title' ); ?>><?php echo $settings['title']; ?></div>
-		<div <?php echo $this->get_render_attribute_string( 'description' ); ?>><?php echo $settings['description']; ?></div>
-		<div <?php echo $this->get_render_attribute_string( 'content' ); ?>><?php echo $settings['content']; ?></div>
-		<?php
-	}
-
-	protected function content_templateX() {
-		?>
-		<#
-		view.addInlineEditingAttributes( 'title', 'none' );
-		view.addInlineEditingAttributes( 'description', 'basic' );
-		view.addInlineEditingAttributes( 'content', 'advanced' );
-		#>
-		<div class="title"{{{ view.getRenderAttributeString( 'title' ) }}}>{{{ settings.title }}}</div>
-		<div {{{ view.getRenderAttributeString( 'description' ) }}}>{{{ settings.description }}}</div>
-		<div {{{ view.getRenderAttributeString( 'content' ) }}}>{{{ settings.content }}}</div>
+		</div> <!-- end category-wrapper -->
 		<?php
 	}
 
