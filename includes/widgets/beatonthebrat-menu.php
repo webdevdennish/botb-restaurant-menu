@@ -6,10 +6,7 @@
  * Get it into the backbone rendering
  * 
  * Background image for header
- * 
- * Imgage size for the image. Maybe do it as a background image.
- * 
- *  
+ * Divider under header
  * 
  */
 namespace Beat_on_the_Brat_Plugins;
@@ -56,7 +53,6 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 
 	}
 
-
 	public function get_style_depends() {
 
 
@@ -77,7 +73,7 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'header_section',
 			[
-				'label' => esc_html__( 'Header Settings', 'beatonthebrat-plugins' ),
+				'label' => esc_html__( 'Header', 'beatonthebrat-plugins' ),
 				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -203,7 +199,6 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 		);
 
 
-
 		// add the repeater as a control
 
 		$this->add_control(
@@ -227,19 +222,6 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 		);
 
 
-
-		/**
-		 * style section
-		 */
-
-
-
-
-
-
-
-
-		// header  
 		/***
 		 * end of repeater
 		 */
@@ -248,8 +230,6 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 		/**
 		 * Style section
 		 */
-
-
 
 
 		$this->start_controls_section(
@@ -414,15 +394,98 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 			]
 		);
 
+
+		$this->add_control(
+			'item_name_options',
+			[
+				'label' => esc_html__( 'Item Name', 'beatonthebrat-plugins' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__( 'Font', 'beatonthebrat-plugins' ),
+				'name' => 'item_name_typography',
+				'selector' => '{{WRAPPER}} .item-name',
+			]
+		);
+
+
+		$this->add_control(
+			'item_name_color',
+			[
+				'label' => esc_html__( 'Font Color', 'beatonthebrat-plugins' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .item-name' => 'color: {{VALUE}}',
+				],
+			]
+		);
+
+		$this->add_control(
+			'item_descriptions_options',
+			[
+				'label' => esc_html__( 'Item Description', 'beatonthebrat-plugins' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__( 'Font', 'beatonthebrat-plugins' ),
+				'name' => 'item_decription_typography',
+				'selector' => '{{WRAPPER}} .item-description',
+			]
+		);
+
+
+		$this->add_control(
+			'item_description_color',
+			[
+				'label' => esc_html__( 'Font Color', 'beatonthebrat-plugins' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .item-description' => 'color: {{VALUE}}',
+				],
+			]
+		);
+
+
+		/**
+		 * Xitem_name
+		 * Xitem_description
+		 * price_1
+		 * price_2
+		 * item_divider
+		 */
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'item_image_style_section',
+			[
+				'label' => esc_html__( 'Image Style', 'beatonthebrat-plugins' ),
+				'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+			]
+		);
+
 		$this->add_control(
 			'item_image_dimension',
 			[
-				'label' => esc_html__( 'Image size', 'beatonthebrat-plugins' ),
+				'label' => esc_html__( 'Image container size', 'beatonthebrat-plugins' ),
 				'type' => \Elementor\Controls_Manager::IMAGE_DIMENSIONS,
-				'description' => esc_html__( 'Crop the image dispay area. Set custom width or height to keep the original size ratio.', 'plugin-name' ),
+				'show_label' => true,
+				'description' => esc_html__( 'The image scales to the largest possible, centered inside the container.', 'plugin-name' ),
 				'default' => [
-					'width' => '',
-					'height' => '',
+					'width' => '80',
+					'height' => '60',
 				],
 			]
 		);
@@ -491,6 +554,9 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 
 		$this->add_render_attribute( 'item-left-wrapper', 'class', 'item-left-wrapper', false );
 		$this->add_render_attribute( 'item-info-wrapper', 'class', 'item-info-wrapper', false );
+		$this->add_render_attribute( 'item-info-wrapper', 'class', 'item-info-wrapper', false );
+
+
 
 
 		$this->add_render_attribute( 'item-price-wrapper', 'class', 'item-price-wrapper', false );
@@ -513,6 +579,8 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 					<div <?php echo $this->get_render_attribute_string( 'amount_2' ) ?>> <?php echo $settings['amount_2'] ?></div>
 				</div>
 			</div>
+
+
 			<!-- INSERT REPEATER HERE -->
 			<div <?php echo $this->get_render_attribute_string( 'items-wrapper' ); ?> >
 
@@ -537,17 +605,17 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 
 						$tmb = wp_get_attachment_image_src( $item['item_image']['id'], 'thumbnail' );
 						$img =  wp_get_attachment_image_src( $item['item_image']['id'], 'full' );
-						$img_width = $settings['item_image_dimension']['width'];
-						$img_height = $settings['item_image_dimension']['height'];
+						$item_img_width = $settings['item_image_dimension']['width'];
+						$item_img_height = $settings['item_image_dimension']['height'];
 						$this->add_render_attribute( 'item-image-wrapper', 'class', 'item-image-wrapper', true );
 
-						$this->add_render_attribute( 'item_image', 'id', $objId . '-tmb-' . $nr, true);
-						$this->add_render_attribute( 'item_image', 'src', $tmb[0], true);
-						$this->add_render_attribute( 'item_image', 'width', $img_width, true);
-						$this->add_render_attribute( 'item_image', 'height', $img_height, true);
-						$this->add_render_attribute( 'item_image', 'alt', \Elementor\Control_Media::get_image_alt( $item['item_image'] ), true );
-						$this->add_render_attribute( 'item_image', 'title', \Elementor\Control_Media::get_image_title( $item['item_image'] ), true );
-						$this->add_render_attribute( 'item_image', 'class', 'item-image', true );
+						//$this->add_render_attribute( 'item-image', 'id', $objId . '-tmb-' . $nr, true);
+						//$this->add_render_attribute( 'item-image', 'src', $tmb[0], true);
+
+						// $this->add_render_attribute( 'item-image', 'width', $item_img_width, true);
+						// $this->add_render_attribute( 'item-image', 'height', $item_img_height, true);
+						$this->add_render_attribute( 'item-image', 'title', \Elementor\Control_Media::get_image_title( $item['item_image'] ), true );
+						$this->add_render_attribute( 'item-image', 'class', 'item-image', true );
 					
 					}
 #endregion
@@ -602,7 +670,7 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 
 						<?php if($hasImage): ?>
 							<div <?php echo $this->get_render_attribute_string( 'item-image-wrapper' ); ?> >
-								<a href="#<?php echo $objId . '-img-' . $nr ?>" style="background-image: url('<?php echo $tmb[0] ?>'); width:105px; height:80px;"></a>
+								<a href="#<?php echo $objId . '-img-' . $nr ?>" <?php echo $this->get_render_attribute_string( 'item-image' ); ?> style="background-image: url('<?php echo $tmb[0] ?>'); padding-bottom:<?php echo $item_img_height ?>px; padding-right:<?php echo $item_img_width ?>px;"></a>
 								<a href="#" class="menu-lightbox" id="<?php echo $objId . '-img-' . $nr ?>">
 									<span style="background-image: url('<?php echo $img[0] ?>')"></span>
 								</a>
