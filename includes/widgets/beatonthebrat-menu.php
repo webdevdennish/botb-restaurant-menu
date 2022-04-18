@@ -265,6 +265,7 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 				],
 			]
 		);
+		
 		$this->add_control(
 			'titles_css_spacing',
 			[
