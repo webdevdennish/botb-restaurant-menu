@@ -202,18 +202,7 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 			]
 		);
 
-		$this->add_control(
-			'item_image_dimension',
-			[
-				'label' => esc_html__( 'Image size', 'beatonthebrat-plugins' ),
-				'type' => \Elementor\Controls_Manager::IMAGE_DIMENSIONS,
-				'description' => esc_html__( 'Crop the image dispay area. Set custom width or height to keep the original size ratio.', 'plugin-name' ),
-				'default' => [
-					'width' => '',
-					'height' => '',
-				],
-			]
-		);
+
 
 		// add the repeater as a control
 
@@ -425,6 +414,19 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 			]
 		);
 
+		$this->add_control(
+			'item_image_dimension',
+			[
+				'label' => esc_html__( 'Image size', 'beatonthebrat-plugins' ),
+				'type' => \Elementor\Controls_Manager::IMAGE_DIMENSIONS,
+				'description' => esc_html__( 'Crop the image dispay area. Set custom width or height to keep the original size ratio.', 'plugin-name' ),
+				'default' => [
+					'width' => '',
+					'height' => '',
+				],
+			]
+		);
+
 		$this->end_controls_section();
 
 
@@ -535,8 +537,8 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 
 						$tmb = wp_get_attachment_image_src( $item['item_image']['id'], 'thumbnail' );
 						$img =  wp_get_attachment_image_src( $item['item_image']['id'], 'full' );
-						$img_width = $item['item_image_dimension']['width'];
-						$img_height = $item['item_image_dimension']['height'];
+						$img_width = $settings['item_image_dimension']['width'];
+						$img_height = $settings['item_image_dimension']['height'];
 						$this->add_render_attribute( 'item-image-wrapper', 'class', 'item-image-wrapper', true );
 
 						$this->add_render_attribute( 'item_image', 'id', $objId . '-tmb-' . $nr, true);
