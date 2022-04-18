@@ -52,6 +52,7 @@ border-bottom: 1px dotted black;
     padding-right:80px;
     padding-bottom:80px;
     background-size: contain;
+    box-shadow: none;
 }
 
 

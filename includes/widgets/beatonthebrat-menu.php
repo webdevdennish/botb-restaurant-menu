@@ -241,6 +241,26 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 		);
 
 		$this->add_control(
+			'header_spacing_options',
+			[
+				'label' => esc_html__( 'Header spacing', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'titles_css_spacing',
+			[
+				'label' => esc_html__( 'Titles Spacing ', 'beatonthebrat-plugins' ),
+				'type' => 'css_spacing',
+				'selectors' => [
+					'{{WRAPPER}} .title-wrapper' => 'justify-content: {{VALUE}}',
+				],
+			]
+		);
+
+		$this->add_control(
 			'header_margin',
 			[
 				'label' => esc_html__( 'Header Margin', 'beatonthebrat-plugins' ),
@@ -265,15 +285,12 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 				],
 			]
 		);
-		
 		$this->add_control(
-			'titles_css_spacing',
+			'header_border_options',
 			[
-				'label' => esc_html__( 'Titles spacing ', 'beatonthebrat-plugins' ),
-				'type' => 'css_spacing',
-				'selectors' => [
-					'{{WRAPPER}} .title-wrapper' => 'justify-content: {{VALUE}}',
-				],
+				'label' => esc_html__( 'Header Border', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
 			]
 		);
 
@@ -281,10 +298,31 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 			\Elementor\Group_Control_Border::get_type(),
 			[
 				'name' => 'header_border',
-				'label' => esc_html__( 'Border', 'beatonthebrat-plugins' ),
+				'label' => esc_html__( 'Header Border', 'beatonthebrat-plugins' ),
+				'show_label' => true,
+				'separator' => 'before',
 				'selector' => '{{WRAPPER}} .header-wrapper',
 			]
 		);
+
+		$this->add_control(
+			'header_background_options',
+			[
+				'label' => esc_html__( 'Header Background', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_group_control(
+				\Elementor\Group_Control_Background::get_type(),
+				[
+					'name' => 'header_background',
+					'label' => esc_html__( 'Header Background', 'plugin-name' ),
+					'types' => [ 'classic', 'gradient', 'video' ],
+					'selector' => '{{WRAPPER}} .header-wrapper',
+				]
+			);
 
 		$this->add_control(
 			'title_options',
@@ -294,6 +332,8 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 				'separator' => 'before',
 			]
 		);
+
+
 
 		$this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
@@ -381,8 +421,6 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 
 
 
-// https://developers.elementor.com/docs/controls/classes/control-dimensions/
-
 
 		$this->end_controls_section();
 
@@ -395,6 +433,112 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 			]
 		);
 
+
+		$this->add_control(
+			'item_spacing_options',
+			[
+				'label' => esc_html__( 'Item spacing', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'item_name_align',
+			[
+				'label' => esc_html__( 'Item Name Alignment', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::CHOOSE,
+				'options' => [
+					'left' => [
+						'title' => esc_html__( 'Left', 'plugin-name' ),
+						'icon' => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => esc_html__( 'Center', 'plugin-name' ),
+						'icon' => 'eicon-text-align-center',
+					],
+					'right' => [
+						'title' => esc_html__( 'Right', 'plugin-name' ),
+						'icon' => 'eicon-text-align-right',
+					],
+				],
+				'default' => 'left',
+				'toggle' => true,
+			]
+		);
+
+
+		$this->add_control(
+			'item_description_align',
+			[
+				'label' => esc_html__( 'Item Decription Alignment', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::CHOOSE,
+				'options' => [
+					'left' => [
+						'title' => esc_html__( 'Left', 'plugin-name' ),
+						'icon' => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => esc_html__( 'Center', 'plugin-name' ),
+						'icon' => 'eicon-text-align-center',
+					],
+					'right' => [
+						'title' => esc_html__( 'Right', 'plugin-name' ),
+						'icon' => 'eicon-text-align-right',
+					],
+				],
+				'default' => 'left',
+				'toggle' => true,
+			]
+		);
+
+
+		$this->add_control(
+			'item_margin',
+			[
+				'label' => esc_html__( 'Item Margin', 'beatonthebrat-plugins' ),
+				'type' => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'default' => ['isLinked' => false ],
+				'selectors' => [
+					'{{WRAPPER}} .item-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'item_padding',
+			[
+				'label' => esc_html__( 'Item Padding', 'beatonthebrat-plugins' ),
+				'type' => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'default' => ['isLinked' => false ],
+				'selectors' => [
+					'{{WRAPPER}} .item-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+		$this->add_control(
+			'item_border_options',
+			[
+				'label' => esc_html__( 'Item Border', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name' => 'item_border',
+				'label' => esc_html__( 'Item Border', 'beatonthebrat-plugins' ),
+				'show_label' => true,
+				'separator' => 'before',
+				'selector' => '{{WRAPPER}} .item-wrapper',
+			]
+		);
+
+		
 
 		$this->add_control(
 			'item_name_options',
@@ -458,14 +602,37 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 			]
 		);
 
+		$this->add_control(
+			'item_price_options',
+			[
+				'label' => esc_html__( 'Item Price', 'beatonthebrat-plugins' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
 
-		/**
-		 * Xitem_name
-		 * Xitem_description
-		 * price_1
-		 * price_2
-		 * item_divider
-		 */
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__( 'Font', 'beatonthebrat-plugins' ),
+				'name' => 'item_price_typography',
+				'selector' => '{{WRAPPER}} .item-price',
+			]
+		);
+
+
+		$this->add_control(
+			'item_price_color',
+			[
+				'label' => esc_html__( 'Font Color', 'beatonthebrat-plugins' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .item-price' => 'color: {{VALUE}}',
+				],
+			]
+		);
+
 
 		$this->end_controls_section();
 
@@ -477,13 +644,25 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 			]
 		);
 
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Box_Shadow::get_type(),
+			[
+				'name' => 'item_image_box_shadow',
+				'label' => esc_html__( 'Box Shadow', 'beatonthebrat-plugins' ),
+				'selector' => '{{WRAPPER}} .item-image',
+			]
+		);
+
+
 		$this->add_control(
 			'item_image_dimension',
 			[
 				'label' => esc_html__( 'Image container size', 'beatonthebrat-plugins' ),
 				'type' => \Elementor\Controls_Manager::IMAGE_DIMENSIONS,
 				'show_label' => true,
-				'description' => esc_html__( 'The image scales to the largest possible, centered inside the container.', 'plugin-name' ),
+				'separator' => 'after',
+				'description' => esc_html__( '', 'plugin-name' ),
 				'default' => [
 					'width' => '80',
 					'height' => '60',
@@ -610,11 +789,6 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 						$item_img_height = $settings['item_image_dimension']['height'];
 						$this->add_render_attribute( 'item-image-wrapper', 'class', 'item-image-wrapper', true );
 
-						//$this->add_render_attribute( 'item-image', 'id', $objId . '-tmb-' . $nr, true);
-						//$this->add_render_attribute( 'item-image', 'src', $tmb[0], true);
-
-						// $this->add_render_attribute( 'item-image', 'width', $item_img_width, true);
-						// $this->add_render_attribute( 'item-image', 'height', $item_img_height, true);
 						$this->add_render_attribute( 'item-image', 'title', \Elementor\Control_Media::get_image_title( $item['item_image'] ), true );
 						$this->add_render_attribute( 'item-image', 'class', 'item-image', true );
 					
@@ -678,10 +852,12 @@ class Beat_on_the_Brat_Schedule extends \Elementor\Widget_Base {
 							</div>
 						<?php endif ?>	
 						<div <?php echo $this->get_render_attribute_string( 'item-info-wrapper' ); ?> >
-							<div <?php echo $this->get_render_attribute_string( $item_name_setting_key ) ?>> 
+							<div <?php echo $this->get_render_attribute_string( $item_name_setting_key ) ?> style="text-align: <?php echo esc_attr( $settings['item_name_align'] ); ?>"> 
 								<?php echo $item['item_name'] ?>
 							</div>
-							<div <?php echo $this->get_render_attribute_string( $item_description_setting_key ) ?>> <?php echo $item['item_description'] ?></div>
+							<div <?php echo $this->get_render_attribute_string( $item_description_setting_key ) ?> style="text-align: <?php echo esc_attr( $settings['item_description_align'] ); ?>"> 
+								<?php echo $item['item_description'] ?>
+							</div>
 						</div>
 					</div>
 					<div <?php echo $this->get_render_attribute_string( 'item-price-wrapper' ); ?> >
